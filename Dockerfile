@@ -1,11 +1,11 @@
 FROM python:3.9-slim as builder
 RUN apt update && apt install -y git
-RUN git clone --depth 1 --branch amazon-neptune-tools-1.2 https://github.com/awslabs/amazon-neptune-tools
+RUN git clone --depth 1 --branch amazon-neptune-tools-1.2 https://github.com/awslabs/amazon-neptune-tools /amazon-neptune-tools
 
 FROM python:3.9-slim
 
 # Install the neptune_python_utils dependencies.
-RUN pip install gremlinpython requests backoff cchardet aiodns idna-ssl
+RUN pip install gremlinpython requests backoff
 
 # Pin specific versions of Jupyter and Tornado dependency.
 RUN pip install 'notebook==5.7.10' && \
@@ -25,9 +25,6 @@ RUN python -m graph_notebook.static_resources.install && \
 # Create default notebooks location and copy premade starter notebooks.
 RUN mkdir /notebooks
 
-# Copy amazon-neptune-tools python module
-RUN mkdir /notebooks/neptune_python_utils
-
 RUN python -m graph_notebook.notebooks.install --destination /notebooks
 
 # Add non-privileged user.
@@ -42,8 +39,11 @@ WORKDIR /notebooks
 
 # Run the service as jupyter user.
 USER jupyter
+
+# Copy the Amazon neptune-python-tools.
 COPY --from=builder /amazon-neptune-tools/neptune-python-utils /home/jupyter
 
+# Allow the the neptune-python-tools module to be loaded in Python.
 ENV PYTHONPATH="/home/jupyter"
 
 # Run jupyter notebook on start.
