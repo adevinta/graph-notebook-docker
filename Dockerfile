@@ -43,6 +43,9 @@ USER jupyter
 # Copy the Amazon neptune-python-tools.
 COPY --from=builder /amazon-neptune-tools/neptune-python-utils /home/jupyter
 
+# Copy the neptune helper.
+COPY neptune_helper.py /home/jupyter
+
 # Allow the the neptune-python-tools module to be loaded in Python.
 ENV PYTHONPATH="/home/jupyter"
 
