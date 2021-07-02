@@ -2,9 +2,7 @@
 from os import getenv
 
 from boto3.session import Session
-
 from neptune_python_utils.gremlin_utils import GremlinUtils
-
 from neptune_python_utils.endpoints import Endpoints
 
 def iam_connect():
