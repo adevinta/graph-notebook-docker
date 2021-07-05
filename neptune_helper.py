@@ -46,11 +46,10 @@ def iam_connect():
                       aws_session_token=session_token,
                       region_name=region)
     credentials = session.get_credentials()
-    endpoints = Endpoints(
-        neptune_endpoint=neptune_endpoint,
-        neptune_port=8182,
-        region_name=region,
-        credentials=credentials)
+    endpoints = Endpoints(neptune_endpoint=neptune_endpoint,
+                          neptune_port=8182,
+                          region_name=region,
+                          credentials=credentials)
     gremlin_utils = GremlinUtils(endpoints)
     conn = gremlin_utils.remote_connection()
     g = gremlin_utils.traversal_source(connection=conn)
@@ -59,10 +58,7 @@ def iam_connect():
 
 class EnvironmentVariableNotSetError(Exception):
     def __init__(self, name):
-        if name:
-            self.name = name
-        else:
-            self.name = None
+        self.name = name
 
     def __str__(self):
         msg = "environment variable not set"
