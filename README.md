@@ -18,7 +18,7 @@ docker run --rm -ti -p 8888:8888 \
     -e AWS_REGION="eu-west-1" \
     graph-notebook:1.0.0
 ```
-Alternatively you can share your local notebooks using the ```-v``` flag,
+Alternatively you can share your local notebooks using the `-v` flag,
 for instance:
 ```bash
 docker run --rm -ti -p 8888:8888 \
@@ -33,11 +33,10 @@ docker run --rm -ti -p 8888:8888 \
 from neptune_helper import iam_connect
 g = iam_connect()
 ```
-3. After that, you can use the ```g``` object to issue Gremlin queries:
+3. After that, you can use the `g` object to issue Gremlin queries:
 ```python
 g.V().limit(10).valueMap().toList()
 ```
 
 [aws/graph-notebook]: https://github.com/aws/graph-notebook
 [aws/neptune-python-utils]: https://github.com/awslabs/amazon-neptune-tools/tree/master/neptune-python-utils
-[gremlinpython]: https://tinkerpop.apache.org/docs/current/reference/#gremlin-python
