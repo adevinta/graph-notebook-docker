@@ -1,9 +1,9 @@
-
 from os import getenv
 
 from boto3.session import Session
 from neptune_python_utils.gremlin_utils import GremlinUtils
 from neptune_python_utils.endpoints import Endpoints
+
 
 def iam_connect():
     """
@@ -20,23 +20,52 @@ def iam_connect():
 
     g.V().limit(10).valueMap().toList()
    """
-    access_key = getenv('AWS_ACCESS_KEY_ID', '')
-    secret_key = getenv('AWS_SECRET_ACCESS_KEY', '')
-    region =     getenv('AWS_REGION', '')
-    session_token = getenv('AWS_SESSION_TOKEN', '')
-    neptune_endpoint =  getenv('NEPTUNE_ENDPOINT', '')
+    access_key = getenv('AWS_ACCESS_KEY_ID', None)
+    if access_key is None:
+        raise EnvironmentVariableNotSetError('AWS_ACCESS_KEY_ID')
+
+    secret_key = getenv('AWS_SECRET_ACCESS_KEY', None)
+    if secret_key is None:
+        raise EnvironmentVariableNotSetError('AWS_SECRET_ACCESS_KEY')
+
+    region = getenv('AWS_REGION', None)
+    if region is None:
+        raise EnvironmentVariableNotSetError('AWS_REGION')
+
+    session_token = getenv('AWS_SESSION_TOKEN', None)
+    if session_token is None:
+        raise EnvironmentVariableNotSetError('AWS_SESSION_TOKEN')
+
+    neptune_endpoint = getenv('NEPTUNE_ENDPOINT', None)
+    if neptune_endpoint is None:
+        raise EnvironmentVariableNotSetError('NEPTUNE_ENDPOINT')
+
     GremlinUtils.init_statics(globals())
     session = Session(aws_access_key_id=access_key,
-                                aws_secret_access_key=secret_key,
-                                aws_session_token=session_token,
-                                region_name=region)
+                      aws_secret_access_key=secret_key,
+                      aws_session_token=session_token,
+                      region_name=region)
     credentials = session.get_credentials()
     endpoints = Endpoints(
-    neptune_endpoint=neptune_endpoint,
-    neptune_port=8182,
-    region_name=region,
-    credentials=credentials)
+        neptune_endpoint=neptune_endpoint,
+        neptune_port=8182,
+        region_name=region,
+        credentials=credentials)
     gremlin_utils = GremlinUtils(endpoints)
     conn = gremlin_utils.remote_connection()
     g = gremlin_utils.traversal_source(connection=conn)
     return g
+
+
+class EnvironmentVariableNotSetError(Exception):
+    def __init__(self, name):
+        if name:
+            self.name = name
+        else:
+            self.name = None
+
+    def __str__(self):
+        msg = "environment variable not set"
+        if self.name:
+            msg = f"environment variable: {self.name} not set"
+        return msg
