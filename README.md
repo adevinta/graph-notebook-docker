@@ -40,3 +40,13 @@ g.V().limit(10).valueMap().toList()
 
 [aws/graph-notebook]: https://github.com/aws/graph-notebook
 [aws/neptune-python-utils]: https://github.com/awslabs/amazon-neptune-tools/tree/master/neptune-python-utils
+
+## Contributing
+
+**This project is in an early stage, we are not accepting external
+contributions yet.**
+
+To contribute, please read the contribution guidelines in [CONTRIBUTING.md].
+
+
+[CONTRIBUTING.md]: CONTRIBUTING.md
