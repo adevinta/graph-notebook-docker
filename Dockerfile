@@ -9,7 +9,8 @@ RUN pip install gremlinpython requests backoff
 
 # Pin specific versions of Jupyter and Tornado dependency.
 RUN pip install 'notebook==5.7.10' && \
-    pip install 'tornado==4.5.3'
+    pip install 'tornado==4.5.3' && \
+    pip install 'rdflib==5.0.0'
 
 # Install the graph-notebook package.
 RUN pip install 'graph-notebook==2.1.2'
