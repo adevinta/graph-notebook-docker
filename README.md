@@ -41,6 +41,13 @@ g.V().limit(10).valueMap().toList()
 [aws/graph-notebook]: https://github.com/aws/graph-notebook
 [aws/neptune-python-utils]: https://github.com/awslabs/amazon-neptune-tools/tree/master/neptune-python-utils
 
+## Versioning
+
+We use the [semantic-versioning](semantic versioning) for tagging the code of a
+belonging to a release. Each release in git has its corresponding tag in this [dockerhub repository].
+
+[dockerhub repository]: https://hub.docker.com/r/adevinta/graph-notebook-docker
+
 ## Contributing
 
 **This project is in an early stage, we are not accepting external
@@ -50,3 +57,4 @@ To contribute, please read the contribution guidelines in [CONTRIBUTING.md].
 
 
 [CONTRIBUTING.md]: CONTRIBUTING.md
+[semantic-versioning]: https://semver.org/spec/v2.0.0.html
