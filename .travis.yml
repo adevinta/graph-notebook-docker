@@ -2,7 +2,7 @@ dist: bionic
 env:
   global:
     - LOCAL_IMAGE="graph-notebook:local"
-    - DEV_IMAGE="purpleteam/graph-notebook-dev-ephemeral:$TRAVIS_COMMIT"
+    - DEV_IMAGE="purpleteam/graph-notebook-docker-dev:$TRAVIS_COMMIT"
     - RELEASE_IMAGE="adevinta/graph-notebook-docker"
 services:
   - docker
