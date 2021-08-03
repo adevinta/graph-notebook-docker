@@ -13,7 +13,7 @@ RUN pip install 'notebook==5.7.10' && \
     pip install 'rdflib==5.0.0'
 
 # Install the graph-notebook package.
-RUN pip install 'graph-notebook==2.1.2'
+RUN pip install 'graph-notebook==3.0.2'
 
 # Install and enable the visualization widget.
 RUN jupyter nbextension install --py --sys-prefix graph_notebook.widgets && \
