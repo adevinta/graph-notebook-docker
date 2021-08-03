@@ -1,8 +1,8 @@
-FROM python:3.9-slim as builder
+FROM python:3.9-slim-buster as builder
 RUN apt update && apt install -y git
 RUN git clone --depth 1 --branch amazon-neptune-tools-1.2 https://github.com/awslabs/amazon-neptune-tools /amazon-neptune-tools
 
-FROM python:3.9-slim
+FROM python:3.9-slim-buster
 
 # Install the neptune_python_utils dependencies.
 RUN pip install gremlinpython requests backoff
