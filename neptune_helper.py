@@ -40,6 +40,10 @@ def iam_connect():
     if neptune_endpoint is None:
         raise EnvironmentVariableNotSetError('NEPTUNE_ENDPOINT')
 
+    neptune_port = getenv('NEPTUNE_PORT', None)
+    if neptune_port is None:
+        neptune_port = 8182
+
     GremlinUtils.init_statics(globals())
     session = Session(aws_access_key_id=access_key,
                       aws_secret_access_key=secret_key,
@@ -47,7 +51,7 @@ def iam_connect():
                       region_name=region)
     credentials = session.get_credentials()
     endpoints = Endpoints(neptune_endpoint=neptune_endpoint,
-                          neptune_port=8182,
+                          neptune_port=neptune_port,
                           region_name=region,
                           credentials=credentials)
     gremlin_utils = GremlinUtils(endpoints)
