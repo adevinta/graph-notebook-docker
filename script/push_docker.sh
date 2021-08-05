@@ -4,10 +4,11 @@
 
 # This script tags and pushes a locally existent docker image to a specified new
 # tag. It receives two parameters, the first one specifies the tag of the local
-# image, and the second one the tag to push the image to. It expects the env
-# variables: DOCKER_USERNAME and DOCKER_PASSWORD to be set to the credentials of
-# a valid user with permission to push to the docker imaghe registry used in the
-# tag the script will push the image to.
+# image and the second one the tag to push the image to. It expects the env
+# variables: DOCKER_USERNAME and DOCKER_PASSWORD to be set. Those credentials
+# must belong to a valid user with permission to push to the docker image
+# registry the script will push the image to.
+
 set -ev
 if [ -z "$1" ]
   then
