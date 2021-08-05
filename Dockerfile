@@ -1,9 +1,10 @@
 FROM python:3.6.12-slim as builder
 RUN apt update && apt install -y git
+
+# Clone Neptune tools repo.
 RUN git clone --depth 1 --branch amazon-neptune-tools-1.2 https://github.com/awslabs/amazon-neptune-tools /amazon-neptune-tools
 
 FROM python:3.6.12-slim
-
 # Install dependencies
 COPY requirements.txt .
 RUN pip install -r requirements.txt
