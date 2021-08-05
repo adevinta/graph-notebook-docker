@@ -4,8 +4,8 @@ RUN git clone --depth 1 --branch amazon-neptune-tools-1.2 https://github.com/aws
 
 FROM python:3.6.12-slim
 
-COPY requirements.txt .
 # Install dependencies
+COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # Install and enable the visualization widget.
