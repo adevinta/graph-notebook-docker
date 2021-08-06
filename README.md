@@ -47,8 +47,8 @@ g.V().limit(10).valueMap().toList()
 
 ## Versioning
 
-We use the [semantic-versioning] for tagging the code of a
-belonging to a release. Each release in git has its corresponding tag in this [dockerhub repository].
+We use [semantic-versioning] for tagging the code of a release.
+Each release in git has its corresponding tag in this [dockerhub repository].
 
 ## Contributing
 
