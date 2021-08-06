@@ -8,6 +8,7 @@ FROM python:3.6.12-slim
 # Install dependencies
 COPY requirements.txt .
 RUN pip install -r requirements.txt
+RUN rm requirements.txt
 
 # Install and enable the visualization widget.
 RUN jupyter nbextension install --py --sys-prefix graph_notebook.widgets && \
@@ -36,7 +37,9 @@ WORKDIR /notebooks
 USER jupyter
 
 # Copy the Amazon neptune-python-tools.
-COPY --from=builder /amazon-neptune-tools/neptune-python-utils /home/jupyter
+COPY --from=builder \
+    /amazon-neptune-tools/neptune-python-utils/neptune_python_utils \
+    /home/jupyter/neptune_python_utils
 
 # Copy the neptune helper.
 COPY neptune_helper.py /home/jupyter
