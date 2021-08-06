@@ -6,4 +6,4 @@ rdflib==5.0.0
 gremlinpython==3.4.12
 
 # neptune_python_utils dependencies.
-requests==2.26.0
+backoff==1.11.1
