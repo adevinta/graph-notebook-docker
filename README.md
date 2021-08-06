@@ -10,7 +10,9 @@ IAM credentials.
 
 ## Using neptune-python-utils
 
-1. Run the docker image passing in the env vars with your "AWS variables", the Neptune endpoint host and port:
+1. Run the docker image passing the environment variables corresponding to your
+   "AWS variables", the Neptune's host and the Neptune's port:
+
 ```bash
 docker run --rm -ti -p 8888:8888 \
     -e NEPTUNE_ENDPOINT="neptune.endpoint.example.com" \
