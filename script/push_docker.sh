@@ -12,7 +12,7 @@
 set -eu
 
 if [ $# -ne 2 ]; then
-    echo "usage: $0 <local_image> <push_image>" >&2
+    echo "usage: $0 <local_tag> <push_tag>" >&2
     exit 2
 fi
 
