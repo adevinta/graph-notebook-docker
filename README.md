@@ -47,10 +47,8 @@ g.V().limit(10).valueMap().toList()
 
 ## Versioning
 
-We use the [semantic-versioning](semantic versioning) for tagging the code of a
+We use the [semantic-versioning] for tagging the code of a
 belonging to a release. Each release in git has its corresponding tag in this [dockerhub repository].
-
-[dockerhub repository]: https://hub.docker.com/r/adevinta/graph-notebook-docker
 
 ## Contributing
 
@@ -62,3 +60,4 @@ To contribute, please read the contribution guidelines in [CONTRIBUTING.md].
 
 [CONTRIBUTING.md]: CONTRIBUTING.md
 [semantic-versioning]: https://semver.org/spec/v2.0.0.html
+[dockerhub repository]: https://hub.docker.com/r/adevinta/graph-notebook-docker
