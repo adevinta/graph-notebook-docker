@@ -10,7 +10,7 @@ def iam_connect():
     Creates a connection using IAM authorization.
     The function needs the following env vars to be defined:
     AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN, AWS_REGION
-    and NEPTUNE_ENDPOINT.
+    and NEPTUNE_HOST.
 
     Returns:
     A 'g' object that can be used to run queries against
@@ -36,9 +36,9 @@ def iam_connect():
     if session_token is None:
         raise EnvironmentVariableNotSetError('AWS_SESSION_TOKEN')
 
-    neptune_endpoint = getenv('NEPTUNE_ENDPOINT', None)
-    if neptune_endpoint is None:
-        raise EnvironmentVariableNotSetError('NEPTUNE_ENDPOINT')
+    NEPTUNE_HOST = getenv('NEPTUNE_HOST', None)
+    if NEPTUNE_HOST is None:
+        raise EnvironmentVariableNotSetError('NEPTUNE_HOST')
 
     neptune_port = getenv('NEPTUNE_PORT', None)
     if neptune_port is None:
@@ -50,7 +50,7 @@ def iam_connect():
                       aws_session_token=session_token,
                       region_name=region)
     credentials = session.get_credentials()
-    endpoints = Endpoints(neptune_endpoint=neptune_endpoint,
+    endpoints = Endpoints(NEPTUNE_HOST=NEPTUNE_HOST,
                           neptune_port=neptune_port,
                           region_name=region,
                           credentials=credentials)
