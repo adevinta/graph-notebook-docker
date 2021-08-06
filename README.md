@@ -10,10 +10,13 @@ IAM credentials.
 
 ## Using neptune-python-utils
 
-1. Run the docker image passing in the env vars with your "AWS variables" and the Neptune endpoint:
+1. Run the docker image passing the environment variables corresponding to your
+   "AWS variables", Neptune's host and Neptune's port:
+
 ```bash
 docker run --rm -ti -p 8888:8888 \
-    -e NEPTUNE_ENDPOINT="neptune.endpoint.example.com" \
+    -e NEPTUNE_HOST="neptune.endpoint.example.com" \
+    -e NEPTUNE_PORT=8182 \
     -e AWS_ACCESS_KEY_ID  -e AWS_SECRET_ACCESS_KEY -e AWS_SESSION_TOKEN \
     -e AWS_REGION="eu-west-1" \
     graph-notebook:1.0.0
@@ -23,7 +26,8 @@ for instance:
 ```bash
 docker run --rm -ti -p 8888:8888 \
     -v $PWD:/notebooks \
-    -e NEPTUNE_ENDPOINT="neptune.endpoint.example.com" \
+    -e NEPTUNE_HOST="neptune.endpoint.example.com" \
+    -e NEPTUNE_PORT=8182 \
     -e AWS_ACCESS_KEY_ID  -e AWS_SECRET_ACCESS_KEY -e AWS_SESSION_TOKEN \
     -e AWS_REGION="eu-west-1" \
     graph-notebook:1.0.0
@@ -41,6 +45,11 @@ g.V().limit(10).valueMap().toList()
 [aws/graph-notebook]: https://github.com/aws/graph-notebook
 [aws/neptune-python-utils]: https://github.com/awslabs/amazon-neptune-tools/tree/master/neptune-python-utils
 
+## Versioning
+
+We use [semantic-versioning] for releases. Each release in git has its
+corresponding tag in this [dockerhub repository].
+
 ## Contributing
 
 **This project is in an early stage, we are not accepting external
@@ -50,3 +59,5 @@ To contribute, please read the contribution guidelines in [CONTRIBUTING.md].
 
 
 [CONTRIBUTING.md]: CONTRIBUTING.md
+[semantic-versioning]: https://semver.org/spec/v2.0.0.html
+[dockerhub repository]: https://hub.docker.com/r/adevinta/graph-notebook-docker

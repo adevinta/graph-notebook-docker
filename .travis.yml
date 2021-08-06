@@ -1,0 +1,22 @@
+dist: bionic
+env:
+  global:
+    - LOCAL_IMAGE="graph-notebook-docker:local"
+    - DEV_IMAGE="purpleteam/graph-notebook-docker-dev:$TRAVIS_COMMIT"
+    - RELEASE_IMAGE="adevinta/graph-notebook-docker"
+services:
+  - docker
+script:
+  - docker build -t $LOCAL_IMAGE .
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: ./script/push_docker.sh $LOCAL_IMAGE $RELEASE_IMAGE
+    on:
+      tags: true
+  - provider: script
+    skip_cleanup: true
+    script: ./script/push_docker.sh $LOCAL_IMAGE $DEV_IMAGE
+    on:
+      all_branches: true
+      tags: false

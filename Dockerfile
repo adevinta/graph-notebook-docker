@@ -1,18 +1,14 @@
-FROM python:3.9-slim as builder
+FROM python:3.6.12-slim as builder
 RUN apt update && apt install -y git
+
+# Clone Neptune tools repo.
 RUN git clone --depth 1 --branch amazon-neptune-tools-1.2 https://github.com/awslabs/amazon-neptune-tools /amazon-neptune-tools
 
-FROM python:3.9-slim
-
-# Install the neptune_python_utils dependencies.
-RUN pip install gremlinpython requests backoff
-
-# Pin specific versions of Jupyter and Tornado dependency.
-RUN pip install 'notebook==5.7.10' && \
-    pip install 'tornado==4.5.3'
-
-# Install the graph-notebook package.
-RUN pip install 'graph-notebook==2.1.2'
+FROM python:3.6.12-slim
+# Install dependencies
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+RUN rm requirements.txt
 
 # Install and enable the visualization widget.
 RUN jupyter nbextension install --py --sys-prefix graph_notebook.widgets && \
@@ -41,7 +37,9 @@ WORKDIR /notebooks
 USER jupyter
 
 # Copy the Amazon neptune-python-tools.
-COPY --from=builder /amazon-neptune-tools/neptune-python-utils /home/jupyter
+COPY --from=builder \
+    /amazon-neptune-tools/neptune-python-utils/neptune_python_utils \
+    /home/jupyter/neptune_python_utils
 
 # Copy the neptune helper.
 COPY neptune_helper.py /home/jupyter
