@@ -36,8 +36,8 @@ def iam_connect():
     if session_token is None:
         raise EnvironmentVariableNotSetError('AWS_SESSION_TOKEN')
 
-    NEPTUNE_HOST = getenv('NEPTUNE_HOST', None)
-    if NEPTUNE_HOST is None:
+    neptune_host = getenv('NEPTUNE_HOST', None)
+    if neptune_host is None:
         raise EnvironmentVariableNotSetError('NEPTUNE_HOST')
 
     neptune_port = getenv('NEPTUNE_PORT', None)
@@ -50,7 +50,7 @@ def iam_connect():
                       aws_session_token=session_token,
                       region_name=region)
     credentials = session.get_credentials()
-    endpoints = Endpoints(NEPTUNE_HOST=NEPTUNE_HOST,
+    endpoints = Endpoints(neptune_endpoint=neptune_host,
                           neptune_port=neptune_port,
                           region_name=region,
                           credentials=credentials)
