@@ -9,7 +9,7 @@
 # must belong to a valid user with permission to push to the docker image
 # registry the script will push the image to.
 
-set -ev
+set -eu
 if [ -z "$1" ]
   then
     echo "no local image tag specified"
