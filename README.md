@@ -11,7 +11,7 @@ IAM credentials.
 ## Using neptune-python-utils
 
 1. Run the docker image passing the environment variables corresponding to your
-   "AWS variables", the Neptune's host and the Neptune's port:
+   "AWS variables", Neptune's host and Neptune's port:
 
 ```bash
 docker run --rm -ti -p 8888:8888 \
@@ -47,8 +47,8 @@ g.V().limit(10).valueMap().toList()
 
 ## Versioning
 
-We use [semantic-versioning] for tagging the code of a release.
-Each release in git has its corresponding tag in this [dockerhub repository].
+We use [semantic-versioning] for releases. Each release in git has its
+corresponding tag in this [dockerhub repository].
 
 ## Contributing
 
