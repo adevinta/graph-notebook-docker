@@ -10,20 +10,17 @@
 # registry the script will push the image to.
 
 set -eu
-if [ -z "$1" ]
-  then
-    echo "no local image tag specified"
-fi
 
-if [ -z "$2" ]
-  then
-    echo "no image tag to push to specified"
+if [ $# -ne 2 ]; then
+    echo "usage: $0 <local_image> <push_image>" >&2
+    exit 2
 fi
 
 LOCAL_TAG=$1
 PUSH_TAG=$2
-docker tag $LOCAL_TAG $PUSH_TAG
-echo ${DOCKER_PASSWORD} | docker login -u $DOCKER_USERNAME --password-stdin
+
+docker tag "${LOCAL_TAG}" "${PUSH_TAG}"
+echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
 echo "pushing image to repository ${PUSH_TAG}"
-docker push $PUSH_TAG
+docker push "${PUSH_TAG}"
 docker logout
