@@ -1,69 +1,42 @@
 from os import getenv
 
-from boto3.session import Session
 from neptune_python_utils.gremlin_utils import GremlinUtils
 from neptune_python_utils.endpoints import Endpoints
 
 
-def iam_connect():
+def get_neptune_iam_connection(neptune_host, neptune_port=8182):
+    """Returns a Neptune connection using IAM authentication. It expects valid
+    AWS credentials and the environment variable ``AWS_REGION``.
+
+    Example:
+
+        from neptune_helper import get_neptune_iam_connection
+        from gremlin_python.process.anonymous_traversal import traversal
+
+        conn = get_neptune_iam_connection("neptune.example.com", 8182)
+        g = traversal().withRemote(conn)
     """
-    Creates a connection using IAM authorization.
-    The function needs the following env vars to be defined:
-    AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN, AWS_REGION
-    and NEPTUNE_HOST.
-
-    Returns:
-    A 'g' object that can be used to run queries against
-    a Neptune db, for instance:
-
-    g = neptune_iam_connect()
-
-    g.V().limit(10).valueMap().toList()
-   """
-    access_key = getenv('AWS_ACCESS_KEY_ID', None)
-    if access_key is None:
-        raise EnvironmentVariableNotSetError('AWS_ACCESS_KEY_ID')
-
-    secret_key = getenv('AWS_SECRET_ACCESS_KEY', None)
-    if secret_key is None:
-        raise EnvironmentVariableNotSetError('AWS_SECRET_ACCESS_KEY')
-
     region = getenv('AWS_REGION', None)
     if region is None:
-        raise EnvironmentVariableNotSetError('AWS_REGION')
+        raise EnvVarNotSetError('AWS_REGION')
 
-    session_token = getenv('AWS_SESSION_TOKEN', None)
-    if session_token is None:
-        raise EnvironmentVariableNotSetError('AWS_SESSION_TOKEN')
-
-    neptune_host = getenv('NEPTUNE_HOST', None)
-    if neptune_host is None:
-        raise EnvironmentVariableNotSetError('NEPTUNE_HOST')
-
-    neptune_port = getenv('NEPTUNE_PORT', '8182')
-
-    GremlinUtils.init_statics(globals())
-    session = Session(aws_access_key_id=access_key,
-                      aws_secret_access_key=secret_key,
-                      aws_session_token=session_token,
-                      region_name=region)
-    credentials = session.get_credentials()
-    endpoints = Endpoints(neptune_endpoint=neptune_host,
-                          neptune_port=int(neptune_port),
-                          region_name=region,
-                          credentials=credentials)
+    endpoints = Endpoints(
+        neptune_endpoint=neptune_host,
+        neptune_port=neptune_port,
+        region_name=region,
+    )
     gremlin_utils = GremlinUtils(endpoints)
-    conn = gremlin_utils.remote_connection()
-    g = gremlin_utils.traversal_source(connection=conn)
-    return g
+    return gremlin_utils.remote_connection()
 
 
-class EnvironmentVariableNotSetError(Exception):
-    def __init__(self, name):
+class EnvVarNotSetError(Exception):
+    """It is returned when an environment variable was not set."""
+
+    def __init__(self, name=None):
+        msg = 'environment variable not set'
+        if name is not None:
+            msg = f'environment variable not set: {name}'
+
+        super().__init__(msg)
+
         self.name = name
-
-    def __str__(self):
-        msg = "environment variable not set"
-        if self.name:
-            msg = f"environment variable: {self.name} not set"
-        return msg
