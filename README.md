@@ -15,27 +15,25 @@ IAM credentials.
 
 ```bash
 docker run --rm -ti -p 8888:8888 \
-    -e NEPTUNE_HOST="neptune.endpoint.example.com" \
-    -e NEPTUNE_PORT=8182 \
     -e AWS_ACCESS_KEY_ID  -e AWS_SECRET_ACCESS_KEY -e AWS_SESSION_TOKEN \
     -e AWS_REGION="eu-west-1" \
-    graph-notebook:1.0.0
+    adevinta/graph-notebook-docker:v1.0.0
 ```
 Alternatively you can share your local notebooks using the `-v` flag,
 for instance:
 ```bash
 docker run --rm -ti -p 8888:8888 \
     -v $PWD:/notebooks \
-    -e NEPTUNE_HOST="neptune.endpoint.example.com" \
-    -e NEPTUNE_PORT=8182 \
     -e AWS_ACCESS_KEY_ID  -e AWS_SECRET_ACCESS_KEY -e AWS_SESSION_TOKEN \
     -e AWS_REGION="eu-west-1" \
-    graph-notebook:1.0.0
+    adevinta/graph-notebook-docker:v1.0.0
 ```
 2. Execute the following code in a Notebook served from the container:
 ```python
-from neptune_helper import iam_connect
-g = iam_connect()
+from neptune_helper import get_neptune_iam_connection
+from gremlin_python.process.anonymous_traversal import traversal
+conn = get_neptune_iam_connection("neptune.example.com", 8182)
+g = traversal().withRemote(conn)
 ```
 3. After that, you can use the `g` object to issue Gremlin queries:
 ```python
