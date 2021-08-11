@@ -10,6 +10,7 @@ IAM credentials.
 
 ## Using neptune-python-utils
 
+
 1. Run the docker image passing the environment variables corresponding to your
    "AWS variables", Neptune's host and Neptune's port:
 
