@@ -1,0 +1,8 @@
+ARG PYTHON_IMAGE
+FROM ${PYTHON_IMAGE}
+
+ARG PIP_TOOLS_VERSION
+
+RUN apt-get update && apt-get install --no-install-recommends -y git
+
+RUN pip install "pip-tools==${PIP_TOOLS_VERSION}"
