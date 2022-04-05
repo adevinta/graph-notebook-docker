@@ -1,0 +1,33 @@
+#!/bin/bash
+
+set -eu
+
+PIP_COMPILE_IMAGE='graph-notebook-docker-pip-compile:latest'
+PIP_TOOLS_VERSION='6.5.1'
+
+if [ $# -ne 1 ]; then
+    echo "usage: $0 <requirements.in>" >&2
+    exit 2
+fi
+FILEPATH=$(realpath "$1")
+FILE=$(basename "${FILEPATH}")
+DIR=$(dirname "${FILEPATH}")
+
+# Set working directory to the root of the repo.
+cd "$(dirname $0)/.."
+
+PYTHON_IMAGE=$(grep '^FROM python:' Dockerfile | tail -1 | cut -d ' ' -f 2)
+docker build \
+	--build-arg "PYTHON_IMAGE=${PYTHON_IMAGE}" \
+	--build-arg "PIP_TOOLS_VERSION=${PIP_TOOLS_VERSION}" \
+	-t "${PIP_COMPILE_IMAGE}" \
+	- < Dockerfile.pip-compile
+
+docker run \
+	--rm \
+	-v "${DIR}:/work" \
+	"${PIP_COMPILE_IMAGE}" \
+	/bin/bash -c "
+		pip-compile '/work/${FILE}' && \
+		chown $(id -u):$(id -g) '/work/${FILE/.in/.txt}'
+	"
