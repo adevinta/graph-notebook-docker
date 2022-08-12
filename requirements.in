@@ -1,10 +1,10 @@
 # graph-notebook dependencies.
-graph-notebook==3.3.0
+graph-notebook==3.5.3
 
 # neptune_python_utils dependencies.
 gremlinpython==3.5.1
-requests==2.27.1
-backoff==1.11.1
+requests==2.28.1
+backoff==2.1.2
 cchardet==2.1.7
 aiodns==3.0.0
 idna-ssl==1.1.0
