@@ -1,11 +1,19 @@
-FROM python:3.9.12-slim-bullseye as builder
+FROM python:3.9.13-slim-bullseye as python-base
 
+
+FROM python-base as pip-compile
+ARG PIP_TOOLS_VERSION=6.5.1
+RUN pip install "pip-tools==${PIP_TOOLS_VERSION}"
+ENTRYPOINT ["pip-compile"]
+
+
+FROM python-base as amazon-neptune-tools
+ARG AMAZON_NEPTUNE_TOOLS_VERSION=1.12
 RUN apt-get update && apt-get install --no-install-recommends -y git
+RUN git clone --depth 1 --branch "amazon-neptune-tools-${AMAZON_NEPTUNE_TOOLS_VERSION}" https://github.com/awslabs/amazon-neptune-tools /amazon-neptune-tools
 
-RUN git clone --depth 1 --branch amazon-neptune-tools-1.7 https://github.com/awslabs/amazon-neptune-tools /amazon-neptune-tools
 
-
-FROM python:3.9.12-slim-bullseye
+FROM python-base
 
 COPY requirements.txt .
 RUN pip install -r requirements.txt
@@ -25,7 +33,7 @@ WORKDIR /notebooks
 
 USER jupyter
 
-COPY --from=builder \
+COPY --from=amazon-neptune-tools \
     /amazon-neptune-tools/neptune-python-utils/neptune_python_utils \
     /home/jupyter/neptune_python_utils
 COPY neptune_helper.py /home/jupyter
