@@ -1,4 +1,5 @@
 dist: bionic
+language: generic
 env:
   global:
     - LOCAL_IMAGE="graph-notebook-docker:local"
