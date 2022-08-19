@@ -1,9 +1,12 @@
 dist: bionic
+language: generic
 env:
   global:
     - LOCAL_IMAGE="graph-notebook-docker:local"
     - DEV_IMAGE="purpleteam/graph-notebook-docker-dev:$TRAVIS_COMMIT"
     - RELEASE_IMAGE="adevinta/graph-notebook-docker:$TRAVIS_TAG"
+    - DOCKER_BUILDKIT=1
+    - BUILDKIT_PROGRESS=plain
 services:
   - docker
 script:
